@@ -85,3 +85,5 @@ g <- ggcorrplot(corr = res, hc.order = TRUE, method = "square", lab = TRUE)
 print(g)
 # macだとggsaveは使えないので，工夫が必要。
 ggsave(file = "cor_heat.png", plot = g)
+
+# おしまい
