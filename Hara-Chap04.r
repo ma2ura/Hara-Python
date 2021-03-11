@@ -2,10 +2,10 @@ library(tidyverse)
 library(ggExtra)
 
 # カレントディレクトリの設定
-setwd("/Users/soichi/Dropbox/Programing")
+# setwd("/Users/soichi/Dropbox/Programing")
 
 # csvデータの読み込み
-input_data <- readr::read_csv("carprice.csv")
+input_data <- read.csv("carprice.csv")
 
 # データの先頭10行を確認する
 head(input_data,10)
@@ -23,7 +23,7 @@ max(input_data$price)
 min(input_data$price)
 
 # dplyrをつかってグループ別統計量を見る。
-summary_price <- df %>% 
+summary_price <- input_data %>% 
   dplyr::group_by(doornumber) %>%
   dplyr::summarise(
     mean_price = mean(price),
@@ -73,8 +73,8 @@ ggMarginal(g, type = "histogram", bins = 20,margins = "both", size = 5)
 # 複数変数間の情報量が多い図
 dat2 <- input_data %>% 
   dplyr::select(price, enginesize, wheelbase, horsepower, carheight)
-#install.packages("psych")
-libray(psych)
+# install.packages("psych")
+library(psych)
 psych::pairs.panels(dat2,hist.col="white", lm=T, rug = F, ellipses=F)
 
 # 相関係数を色で表す
@@ -82,4 +82,6 @@ psych::pairs.panels(dat2,hist.col="white", lm=T, rug = F, ellipses=F)
 library(ggcorrplot)
 res <- cor(dat2)
 g <- ggcorrplot(corr = res, hc.order = TRUE, method = "square", lab = TRUE)
-ggsave(g)
+print(g)
+# macだとggsaveは使えないので，工夫が必要。
+ggsave(file = "cor_heat.png", plot = g)
