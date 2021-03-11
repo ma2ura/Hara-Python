@@ -8,7 +8,7 @@ os.getcwd()
 # csvデータの読み込み
 input_data = pd.read_csv("carprice.csv")
 
-# データの先頭10行を表示
+# データの先頭10行を表示 head()
 input_data.head(10)
 
 # データの概要を表示 info()
@@ -17,17 +17,17 @@ input_data.info()
 # データの記述統計をまとめて表示 describe()
 input_data.describe()
 
-# 各種記述統計量を計算
+# 各種記述統計量を計算 mean()
 ## 平均
 print(input_data.price.mean())
 ## 以下同様
 
-# pandasのgroupbyでカテゴリ別に統計量を計算
+# pandasのgroupbyでカテゴリ別に統計量を計算 groupby
 ## 平均
 print(input_data.groupby("doornumber")["price"].mean())
 ## 以下同様
 
-# ヒストグラム
+# ヒストグラム hist()
 ## 価格のヒストグラム
 plt.hist(input_data.price)
 plt.xlabel('price') # x軸のラベル
@@ -50,7 +50,7 @@ plt.xlabel('Engine')
 
 # 共分散や相関行列
 
-# 数値計算用パッケージnumpyをロード
+# 科学技術計算ライブラリ numpyを読み込む
 import numpy as np
 #共分散 cov
 print(np.cov(input_data.price, input_data.enginesize))
@@ -61,13 +61,13 @@ print(np.corrcoef(input_data.price, input_data.enginesize))
 import seaborn as sns
 sns.jointplot(input_data.price, input_data.enginesize)
 
-# データをまとめてリストにしておく
+# 5つのをまとめてリストx_listに格納しておく
 x_list = pd.concat([input_data.price, input_data.enginesize, input_data.wheelbase, input_data.horsepower, input_data.carheight], axis = 1)
-# pairplot
+# pairplot 
 sns.pairplot(x_list, kind = "reg")
 
 # 相関係数をプロットし，色で強弱を示す。
-plt.figure(figsize = (12, 9))
+plt.figure(figsize = (12, 9)) # 図の大きさ
 sns.heatmap(x_list.pct_change().corr(), annot = True, cmap = "Blues")
 
 # 作業結果の保存
