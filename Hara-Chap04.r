@@ -24,23 +24,23 @@ min(input_data$price)
 
 # dplyrをつかってグループ別統計量を見る。
 summary_price <- input_data %>% 
-  dplyr::group_by(doornumber) %>%
-  dplyr::summarise(
-    mean_price = mean(price),
-    median_price = median(price),
-    var_price = var(price),
-    sd_price = sd(price),
-    max_price = max(price),
-    min_price = min(price)
+  dplyr::group_by(doornumber) %>% # doornumberごとに次の処理を繰り返す
+  dplyr::summarise( # 各種記述統計量を計算
+    mean_price = mean(price), # 平均
+    median_price = median(price), # 中央値
+    var_price = var(price), # 不偏分散
+    sd_price = sd(price), # 標準偏差
+    max_price = max(price), # 最大値
+    min_price = min(price) # 最小値
   )
-print(summary_price)
+print(summary_price) # 表を表示
 
 
 # ggplotでヒストグラム
-g <- ggplot(input_data, aes(x=price)) + geom_histogram(boundary = 0, binwidth=5000) 
-g <- g +  scale_x_continuous(breaks=seq(5000, 50000, by=5000)) 
-g <- g + theme_bw() + xlab("price") + ylab("count") 
-print(g)
+g <- ggplot(input_data, aes(x=price)) + geom_histogram(boundary = 0, binwidth=5000)
+g <- g +  scale_x_continuous(breaks=seq(5000, 50000, by=5000))  # 軸の制御
+g <- g + theme_bw() + xlab("price") + ylab("count")  #テーマとラベル
+print(g) # グラフを表示
 
 # 箱ひげ図
 ## 基本関数
