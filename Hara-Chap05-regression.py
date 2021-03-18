@@ -1,6 +1,5 @@
 # パッケージをインポート
 import pandas as pd # データ解析ライブラリ
-import io # いる？
 import statsmodels.api as sm # 統計解析ソフト
 
 # データを読み込む
@@ -18,6 +17,7 @@ print('p-values\n', results.pvalues) # p値だけを表示
 #モデルで利用する変数を接合し, ひとつの DataFrame にする
 #読み込むデータを変えれば, 説明変数や被説明変数を変えることが可能
 x_list = pd.concat([input_data.price, input_data.enginesize,input_data.wheelbase, input_data.horsepower, input_data.carheight], axis=1)
+
 x_list2 = x_list.drop("price", 1) # price以外の4つだけをx_list2に 
 price = input_data.price # priceだけを個別におく
 
