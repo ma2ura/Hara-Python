@@ -32,7 +32,7 @@ res2 <- lm(price ~., data = x_list2)
 tidy(res2)
 
 # VIF
-vif(res2)
+vif(res2) # vifを表示
 
 # おまけ
 ## tidy形式で複数のモデルを効率的に管理して，あとで結果を活用しやすくする。
