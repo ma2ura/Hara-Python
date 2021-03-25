@@ -42,11 +42,11 @@ result_intercept = result.intercept
 
 # 散布図を作図
 plt.plot(number_of_reviews, [result_slope * u + result_intercept for u in number_of_reviews])
-plt.scatter(number_of_reviews,price)
-plt.title('price and number_of_reviews in Airbnb Dataset')
-plt.ylabel('price')
-plt.xlabel('number_of_reviews')
-plt.show()
+plt.scatter(number_of_reviews,price) # 散布図を作成
+plt.title('price and number_of_reviews in Airbnb Dataset') # 図タイトル
+plt.ylabel('price') # y軸のラベル
+plt.xlabel('number_of_reviews') # x軸のラベル
+plt.show() # 表示
 
 # 単回帰分析をstatsmodelsを使って分析
 import statsmodels.api as sm
