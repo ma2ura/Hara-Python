@@ -66,6 +66,7 @@ equation_df = pd.concat([manhattan_dummy, private_dummy, home_dummy, shared_dumm
 sns.heatmap(equation_df.pct_change().corr(), annot=True, cmap = 'Blues')
 
 ## つぎに重回帰分析
+## 線形回帰分析に必要なライブラリを読み込む
 from sklearn import linear_model, datasets
 from sklearn.linear_model import LinearRegression
 
@@ -73,9 +74,9 @@ from sklearn.linear_model import LinearRegression
 price = pd.DataFrame(equation_df.price)
 # 被説明変数であるpriceをequation_dfからdropしてx_listに代入
 x_list = equation_df.drop("price",1)
-# 相関係数が高く多重共線性の問題が生じそうなのでreviews_per_monthを落とす。
+# number_of_reviewsとreviews_per_monthの相関係数が高い(0.92)のでreviews_per_monthを落とす。
 x_list = x_list.drop("reviews_per_month",1)
-# 相関係数が高いのでshared_dummyとhome_dummyも除去する。
+# Manhattan_Dummryとの相関係数が高い?のでshared_dummy(0.24)とhome_dummy(0.2)も除去する。
 x_list = x_list.drop("shared_dummy",1)
 x_list = x_list.drop("home_dummy",1)
 # 異常値や欠損茅野除去
@@ -95,7 +96,31 @@ num_cols = model.exog.shape[1]
 print(num_cols) # 説明変数の個数
 vifs = [variance_inflation_factor(model.exog, i) for i in range(0, num_cols)]
 pdv = pd.DataFrame(vifs, index = model.exog_names, columns = ["VIF"])
-print(pdv)
+print(pdv) # 表示
 
-x_list3 = pd.concat([price, x_list], axis = 1)
-sns.pairplot(x_list3, hue = "Munhattan_dummry")
+
+# 被説明変数と説明変数を結合
+x_list3 = pd.concat([price, x_list], axis = 1) 
+# pairplotを作成
+sns.pairplot(x_list3, hue = "Manhattan_dummry") 
+plt.show() # 図を表示
+
+# 位置情報を使った分析
+import geocoder
+location = '自由の女神像'
+adress = geocoder.osm(location, timeout = 5.0)
+adress.latlng # 緯度と経度
+
+# 緯度経度情報を使った分析
+## geodesicを読み込む
+from geopy.distance import geodesic
+
+# 空のオブジェクトdistanceを作成
+distance = []
+
+for x,y in zip(input_sheet_df.latitude, input_sheet_df.longitude):
+    location = np.array([x, y])
+    distance.append(geodesic(address.latlng, location).km)
+
+input_sheet_df['distance'] = distance
+input_sheet_df.distance.head()
