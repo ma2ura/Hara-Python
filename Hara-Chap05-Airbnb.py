@@ -64,7 +64,7 @@ plt.figure(figsize = (12,9)) # 図の大きさ
 equation_df = pd.concat([manhattan_dummy, private_dummy, home_dummy, shared_dummy, price, minimum_nights, number_of_reviews, reviews_per_month, calculated_host_listings_count, availability_365], axis = 1)
 # seabornでheatmapを作成
 sns.heatmap(equation_df.pct_change().corr(), annot=True, cmap = 'Blues')
-
+plt.show() # 図を表示
 ## つぎに重回帰分析
 ## 線形回帰分析に必要なライブラリを読み込む
 from sklearn import linear_model, datasets
